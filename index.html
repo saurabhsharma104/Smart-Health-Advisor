@@ -1,43 +1,148 @@
-<!-- templates/index.html -->
+<!-- templates/user_info.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personalized Healthcare System</title>
+    <title>User Information</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            padding: 50px;
-        }
-
-        form {
-            max-width: 400px;
-            margin: 0 auto;
-        }
-    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1 class="mt-5 mb-4 text-center">Personalized Healthcare System</h1>
-        <form action="/predict" method="post" class="mb-4">
-            <div class="form-group">
-                <label for="age">Age:</label>
-                <input type="text" name="age" class="form-control" required>
+        <h1 class="mt-5 mb-4 text-center">Tell Us About Your Basic Information</h1>
+
+        <form action="/submit_user_info" method="post">
+
+            <!-- Personal Information Section -->
+            <div class="form-section">
+                <h2>Personal Information</h2>
+                <div class="form-group">
+                    <label for="name">Full Name:</label>
+                    <input type="text" name="name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="dob">Date of Birth:</label>
+                    <input type="date" name="dob" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="gender">Gender:</label>
+                    <select name="gender" class="form-control" required>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <!-- Add more personal information fields as needed -->
             </div>
-            <div class="form-group">
-                <label for="gender">Gender:</label>
-                <input type="text" name="gender" class="form-control" required>
+
+            <!-- Health Information Section -->
+            <div class="form-section">
+                <h2>Health Information</h2>
+                <div class="form-group">
+                    <label for="height">Height (in cm):</label>
+                    <input type="number" name="height" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="weight">Weight (in kg):</label>
+                    <input type="number" name="weight" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="smoking_habits">Smoking Habits:</label>
+                    <select name="smoking_habits" class="form-control">
+                        <option value="Never">Never</option>
+                        <option value="Occasional">Occasional</option>
+                        <option value="Regular">Regular</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="alcohol_consumption">Alcohol Consumption:</label>
+                    <select name="alcohol_consumption" class="form-control">
+                        <option value="None">None</option>
+                        <option value="Occasional">Occasional</option>
+                        <option value="Regular">Regular</option>
+                    </select>
+                </div>
+                <!-- Add more health information fields as needed -->
             </div>
+
+            <button type="button" class="btn btn-primary float-right" onclick="handleNext()">Next</button>
+        </form>
+    </div>
+
+    <div class="container">
+        <h1 class="mt-5 mb-4 text-center">Tell Us About Your Medical History</h1>
+
+        <form action="/submit_medical_history" method="post">
+
+            <!-- Checkbox for Current/Past Diseases -->
             <div class="form-group">
-                <label for="symptoms">Symptoms:</label>
-                <input type="text" name="symptoms" class="form-control" required>
+                <label>
+                    <input type="checkbox" id="has_disease_checkbox" onchange="toggleDiseaseFields()">
+                    <b>Do you currently or previously have any diseases?</b>
+                </label>
             </div>
-            <div class="form-group">
-                <label for="genetic_risk">Genetic Risk:</label>
-                <input type="text" name="genetic_risk" class="form-control" required>
+
+            <!-- Current Diseases Section (Initially Hidden) -->
+            <div id="disease_fields" class="form-section hidden">
+                <h2>Current Diseases</h2>
+                <div class="form-group">
+                    <label for="current_disease">Select Current Disease:</label>
+                    <select name="current_disease" class="form-control">
+                        <!-- Dropdown options for top 100 diseases -->
+                        <option value="Hypertension">Hypertension</option>
+                        <option value="Diabetes">Diabetes</option>
+                        <option value="Asthma">Asthma</option>
+                        <option value="Hypertension">Hypertension</option>
+                        <option value="Diabetes">Diabetes</option>
+                        <option value="Asthma">Asthma</option>
+                        <option value="Hypertension">Hypertension</option>
+                        <option value="Diabetes">Diabetes</option>
+                        <option value="Asthma">Asthma</option>                        
+                    </select>
+                </div>
+                
+                <!-- Current Medications Section -->
+                <div class="form-section">
+                    <h2>Current Medications</h2>
+                    <div class="form-group">
+                        <label for="current_medications">List of Current Medications:</label>
+                        <textarea name="current_medications" class="form-control" rows="3"></textarea>
+                    </div>
+                    <!-- Add more fields for medication details if necessary -->
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary">Predict</button>
+            <button type="button" class="btn btn-outline-primary float-left" onclick="handleBak()">Back</button>
+            <button type="button" class="btn btn-primary float-right" onclick="handleNext()">Next</button>
+        </form>
+    </div>
+
+    <div class="container">
+        <h1 class="mt-5 mb-4 text-center">Tell Us About Your Symptoms</h1>
+
+        <form action="/submit_symptoms" method="post">
+
+            <!-- Dropdown for Top 50 Symptoms -->
+            <div class="form-section">
+                <h2>Do you currently have any Symptoms</h2>
+                <div class="form-group" id="additional_symptoms">
+                    <label for="top_symptoms">Select Symptom:</label>
+                    <select name="top_symptoms" class="form-control">
+                        <!-- Add top 50 symptom options -->
+                        <option value="Fever">Fever</option>
+                        <option value="Headache">Headache</option>
+                        <option value="Fatigue">Fatigue</option>
+                        <!-- Add more symptoms as needed -->
+                    </select>
+                </div>
+                <button type="button" class="btn btn-secondary float-right" onclick="addSymptomField()">Add More Symptoms</button>
+            </div>
+            <br/><br/><br/>
+            <button type="submit" class="btn btn-primary" onclick="pridict()">Pridict</button>
         </form>
     </div>
 </body>
