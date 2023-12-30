@@ -16,13 +16,14 @@ import { personalInfo } from '@/schema/personal-info'
 
 interface personalInfoVal {
     firstName: string,
-    gender:Object
+    gender:Object,
 }
 
 type PersonalInfoProps={
     onChangeFn:(val:string) => void,
+    activate:(value:boolean)=>void,
 }
-const PersonalInfo = ({onChangeFn}:PersonalInfoProps) => {
+const PersonalInfo = ({onChangeFn,activate}:PersonalInfoProps) => {
     const [dateofB, setDateofB] = React.useState<Date>()
 
     const initialValue:personalInfoVal={
@@ -35,6 +36,7 @@ const PersonalInfo = ({onChangeFn}:PersonalInfoProps) => {
         validationSchema:personalInfo,
         onSubmit:(values:any,action)=>{
             onChangeFn('health-information')
+            activate(false)
             console.log('onSubmit',values)
         }
     });

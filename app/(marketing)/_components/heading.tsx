@@ -16,7 +16,7 @@ const Heading = () => {
         </h3>
     
         <Button asChild>
-            <Link href='/home'>
+            <Link href='/predict'>
                 Predict Disease
                 <ArrowRight className="h-4 w-4 ml-2"/>
             </Link>

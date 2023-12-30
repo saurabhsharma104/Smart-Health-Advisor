@@ -60,7 +60,7 @@ const Symptoms = ({onChangeFn}:SymptomsProps) => {
                     className=""
                     name="symptomsName"
                     id="symptomsName"
-                    placeholder='Smoking Habits'
+                    placeholder='Select Symptoms'
                     isSearchable
                     closeMenuOnSelect={false}
                     isMulti
