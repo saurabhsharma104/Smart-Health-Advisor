@@ -19,11 +19,18 @@ interface MedicalHistoryVal{
 
 
 interface MedicalHistoryProps{
-    onChangeFn:(val:string)=> void
+    onChangeFn:(val:string)=> void,
+    currentTab:string,
 }
-const MedicalHistory = ({onChangeFn}:MedicalHistoryProps) => {
+const MedicalHistory = ({onChangeFn,currentTab}:MedicalHistoryProps) => {
     const [diseaseData,setDiseaseData] = useState([])
     const [checkCurrentlyPreviously,setCheckCurrentlyPreviously] = useState<boolean>(false);
+
+    useEffect(()=>{
+        if(currentTab!='medical-history'){
+            setCheckCurrentlyPreviously(false)
+        }
+    },[currentTab])
 
     const initialValue:MedicalHistoryVal={
         curntDisease:{},
@@ -63,14 +70,14 @@ const MedicalHistory = ({onChangeFn}:MedicalHistoryProps) => {
         <Card>
             <form>
                 <CardHeader>
-                    <CardTitle className='text-md'>Health Information</CardTitle>
+                    <CardTitle className='text-3xl'>Tell Us About Your Medical History</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-2">
 
 
                 <div className="flex items-center space-x-2">
                     <Checkbox id="terms" onCheckedChange={()=>setCheckCurrentlyPreviously(!checkCurrentlyPreviously)} />
-                    <label htmlFor="terms" className="text-sm font-semibold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    <label htmlFor="terms" className="text-lg font-semibold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                         Do you currently or previously have any diseases?
                     </label>
                     </div>
@@ -103,9 +110,6 @@ const MedicalHistory = ({onChangeFn}:MedicalHistoryProps) => {
                     </div>
 
                     </>}
-                   
-                    
-
 
                 </CardContent>
                 <CardFooter className='flex justify-between  gap-4 md:justify-end '>
