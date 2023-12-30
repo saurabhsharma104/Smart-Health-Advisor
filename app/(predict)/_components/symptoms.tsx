@@ -12,9 +12,10 @@ interface SymptomsVal{
 }
 
 interface SymptomsProps{
-    onChangeFn:(val:string)=> void
+    onChangeFn:(val:string)=> void;
+    onPredict:(value:boolean)=>void,
 }
-const Symptoms = ({onChangeFn}:SymptomsProps) => {
+const Symptoms = ({onChangeFn,onPredict}:SymptomsProps) => {
   const [symptomsDatas,setSymptomsDatas] = useState([])
 
   const initialValue:SymptomsVal={
@@ -24,7 +25,8 @@ const Symptoms = ({onChangeFn}:SymptomsProps) => {
   const {values,errors,handleBlur,handleChange,handleSubmit,touched} = useFormik({
       initialValues:initialValue,
       onSubmit:(values,action)=>{
-          console.log('onSubmit',values)
+        onPredict(true)
+        console.log('onSubmit',values)
       }
   });
 
@@ -48,7 +50,7 @@ const Symptoms = ({onChangeFn}:SymptomsProps) => {
   return (
     <TabsContent value="your-symptoms">
     <Card>
-        <form>
+        <form onSubmit={handleSubmit}>
             <CardHeader>
                 <CardTitle className='text-3xl'>Tell Us About Your Symptoms</CardTitle>
             </CardHeader>
@@ -60,7 +62,7 @@ const Symptoms = ({onChangeFn}:SymptomsProps) => {
                     className=""
                     name="symptomsName"
                     id="symptomsName"
-                    placeholder='Smoking Habits'
+                    placeholder='Select Symptoms'
                     isSearchable
                     closeMenuOnSelect={false}
                     isMulti
@@ -77,7 +79,7 @@ const Symptoms = ({onChangeFn}:SymptomsProps) => {
             </CardContent>
             <CardFooter className='flex justify-between  gap-4 md:justify-end '>
                 <Button variant='outline' onClick={()=>onChangeFn('medical-history')}>Previous</Button>
-                <Button>Predict</Button>
+                <Button type='submit'>Predict</Button>
             </CardFooter>
         </form>
     </Card>
