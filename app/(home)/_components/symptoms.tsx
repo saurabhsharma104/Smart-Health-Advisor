@@ -50,12 +50,12 @@ const Symptoms = ({onChangeFn}:SymptomsProps) => {
     <Card>
         <form>
             <CardHeader>
-                <CardTitle className='text-md'>Tell Us About Your Symptoms</CardTitle>
+                <CardTitle className='text-3xl'>Tell Us About Your Symptoms</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
 
                 <div className="space-y-1 text-start mt-3">
-                    <Label htmlFor="name">Do you currently have any Symptoms  Select from below dropdown</Label>
+                    <Label htmlFor="name ">Do you currently have any Symptoms  Select from below dropdown</Label>
                     <Select 
                     className=""
                     name="symptomsName"

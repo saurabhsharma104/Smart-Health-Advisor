@@ -45,7 +45,7 @@ const HealthInformation = ({onChangeFn}:HealthInformationProps) => {
         <Card>
             <form>
                 <CardHeader>
-                    <CardTitle className='text-md'>Health Information</CardTitle>
+                    <CardTitle className='text-3xl'>Health Information</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-2">
                     <div className="space-y-1 text-start">
