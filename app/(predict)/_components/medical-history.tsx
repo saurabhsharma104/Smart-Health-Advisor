@@ -40,6 +40,7 @@ const MedicalHistory = ({onChangeFn,currentTab}:MedicalHistoryProps) => {
     const {values,errors,handleBlur,handleChange,handleSubmit,touched} = useFormik({
         initialValues:initialValue,
         onSubmit:(values,action)=>{
+            onChangeFn('your-symptoms')
             console.log('onSubmit',values)
         }
     });
@@ -114,7 +115,7 @@ const MedicalHistory = ({onChangeFn,currentTab}:MedicalHistoryProps) => {
                 </CardContent>
                 <CardFooter className='flex justify-between  gap-4 md:justify-end '>
                     <Button variant='outline' onClick={()=>onChangeFn('health-information')}>Previous</Button>
-                    <Button onClick={()=>onChangeFn('your-symptoms')}>Next</Button>
+                    <Button type='submit' onClick={handleSubmit}>Next</Button>
                 </CardFooter>
             </form>
         </Card>

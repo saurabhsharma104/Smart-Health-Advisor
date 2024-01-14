@@ -31,6 +31,7 @@ const HealthInformation = ({onChangeFn}:HealthInformationProps) => {
     const {values,errors,handleBlur,handleChange,handleSubmit,touched} = useFormik({
         initialValues:initialValue,
         onSubmit:(values,action)=>{
+            onChangeFn('medical-history')
             console.log('onSubmit',values)
         }
     });
@@ -50,12 +51,12 @@ const HealthInformation = ({onChangeFn}:HealthInformationProps) => {
                 <CardContent className="space-y-2">
                     <div className="space-y-1 text-start">
                         <Label htmlFor="name">Height</Label>
-                        <Input id="name" name='firstName' onChange={handleChange} onBlur={handleBlur} value={values.height} />
+                        <Input id="name" name='height' onChange={handleChange} onBlur={handleBlur} value={values.height} />
                     </div>
 
                     <div className="space-y-1 text-start">
                         <Label htmlFor="name">Weight</Label>
-                        <Input id="name" name='firstName' onChange={handleChange} onBlur={handleBlur} value={values.weight} />
+                        <Input id="name" name='weight' onChange={handleChange} onBlur={handleBlur} value={values.weight} />
                     </div>
 
                     <div className="space-y-1 text-start">
@@ -84,7 +85,7 @@ const HealthInformation = ({onChangeFn}:HealthInformationProps) => {
                         name="alcohol"
                         id="alcohol"
                         placeholder='Alcohol Consumption'
-                        value={values.smoking}
+                        value={values.alcohol}
                         onChange={selectedOption => {
                             let event = {target: {name: 'alcohol', value: selectedOption}}
                             handleChange(event)
@@ -99,7 +100,7 @@ const HealthInformation = ({onChangeFn}:HealthInformationProps) => {
                 </CardContent>
                 <CardFooter className='flex justify-between  gap-4 md:justify-end '>
                     <Button variant='outline' onClick={()=>onChangeFn('basic-information')}>Previous</Button>
-                    <Button onClick={()=>onChangeFn('medical-history')}>Next</Button>
+                    <Button type='submit' onClick={handleSubmit}>Next</Button>
                 </CardFooter>
             </form>
         </Card>
