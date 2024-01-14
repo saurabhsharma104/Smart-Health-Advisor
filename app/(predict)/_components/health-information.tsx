@@ -50,12 +50,12 @@ const HealthInformation = ({onChangeFn}:HealthInformationProps) => {
                 </CardHeader>
                 <CardContent className="space-y-2">
                     <div className="space-y-1 text-start">
-                        <Label htmlFor="name">Height</Label>
+                        <Label htmlFor="name">Height (in cm)</Label>
                         <Input id="name" name='height' onChange={handleChange} onBlur={handleBlur} value={values.height} />
                     </div>
 
                     <div className="space-y-1 text-start">
-                        <Label htmlFor="name">Weight</Label>
+                        <Label htmlFor="name">Weight (in kg)</Label>
                         <Input id="name" name='weight' onChange={handleChange} onBlur={handleBlur} value={values.weight} />
                     </div>
 

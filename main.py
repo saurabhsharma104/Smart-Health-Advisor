@@ -99,15 +99,10 @@ class DiseasePrediction:
 
     # Model Selection
     def select_model(self):
-        if self.model_name == 'mnb':
-            self.clf = MultinomialNB()
-        elif self.model_name == 'decision_tree':
+        if self.model_name == 'decision_tree':
             self.clf = DecisionTreeClassifier(criterion=self.config['model']['decision_tree']['criterion'])
-        elif self.model_name == 'random_forest':
-            self.clf = RandomForestClassifier(n_estimators=self.config['model']['random_forest']['n_estimators'])
-        elif self.model_name == 'gradient_boost':
-            self.clf = GradientBoostingClassifier(n_estimators=self.config['model']['gradient_boost']['n_estimators'],
-                                                  criterion=self.config['model']['gradient_boost']['criterion'])
+            return self.clf
+        print("Error: Model not found.")
         return self.clf
 
     # ML Model
@@ -136,7 +131,7 @@ class DiseasePrediction:
             print('\nValidation Accuracy: ', accuracy)
             print('\nValidation Confusion Matrix: \n', conf_mat)
             print('\nCross Validation Score: \n', score)
-            print('\nClassification Report: \n', clf_report)
+            # print('\nClassification Report: \n', clf_report)
 
         # Save Trained Model
         dump(classifier, str(self.model_save_path + self.model_name + ".joblib"))
@@ -171,18 +166,20 @@ if __name__ == "__main__":
     print("Model Test Accuracy: ", test_accuracy)
     print("Test Data Classification Report: \n", classification_report)
 
-    # firstRow = pd.read_csv('./dataset/test_data.csv')
-    # cols = firstRow.columns
-    # cols = cols[:-1]
-    # print(cols)
-    # test_features = firstRow[cols]
-    # print(test_features)
-    # print(dp.make_prediction(saved_model_name=current_model_name,test_data=test_features))
+
     
     firstRow = pd.read_csv('./dataset/test_data.csv')
     cols = firstRow.columns
     cols = cols[1:]
     # print(cols)
-    test_features = firstRow[cols]
+    test_features = firstRow[cols][0:1]
+    
     # print(test_features)
-    print(dp.make_prediction(saved_model_name=current_model_name,test_data=test_features))
+    try:
+        result = dp.make_prediction(saved_model_name=current_model_name,test_data=test_features)
+    except:
+        print('Exception occured')
+        
+    print("\n--------------------------------------------------------------------------\n")
+    print(f"\t\t\tPredicted Disease: {result}")
+    print("\n--------------------------------------------------------------------------\n")
