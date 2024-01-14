@@ -6,6 +6,8 @@ import { Label } from '@radix-ui/react-label'
 import { useFormik } from 'formik'
 import React, { useEffect, useState } from 'react'
 import Select from 'react-select';
+import axios from 'axios'
+
 
 interface SymptomsVal{
     symptomsName:Object,
@@ -19,19 +21,36 @@ const Symptoms = ({onChangeFn,onPredict}:SymptomsProps) => {
   const [symptomsDatas,setSymptomsDatas] = useState([])
 
   const initialValue:SymptomsVal={
-    symptomsName:{},
+    symptomsName:[],
   }
 
   const {values,errors,handleBlur,handleChange,handleSubmit,touched} = useFormik({
       initialValues:initialValue,
       onSubmit:(values,action)=>{
         onPredict(true)
-        console.log('onSubmit',values)
+        console.log("values",values)
+        const requestData:Record<string, number> = {};
+
+        values.symptomsName?.forEach(item => {
+            requestData[item.value] = 1;
+        });
+
+        axios.post('http://127.0.0.1:8000/predict/', requestData)
+        .then(response => {
+            console.log('API Response:', response.data);
+        })
+        .catch(error => {
+            console.error('API Error:', error);
+        });
+
+
+
+        // console.log('onSubmit',requestData)
       }
   });
 
   async function symptomData() {
-    const response = await fetch(`/api/disease`, {
+    const response = await fetch(`/api/symptom`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -41,7 +60,7 @@ const Symptoms = ({onChangeFn,onPredict}:SymptomsProps) => {
       setSymptomsDatas(result)
       return result;
   }
-
+  
   useEffect(()=>{
     symptomData()
   },[])
