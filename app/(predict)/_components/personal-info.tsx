@@ -38,7 +38,6 @@ const PersonalInfo = ({onChangeFn,activate}:PersonalInfoProps) => {
             onChangeFn('health-information')
             activate(false)
             
-            console.log(format(dateofB, "PPP"))
             console.log('onSubmit',values)
         }
     });

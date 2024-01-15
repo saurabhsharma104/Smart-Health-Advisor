@@ -69,7 +69,7 @@ const MedicalHistory = ({onChangeFn,currentTab}:MedicalHistoryProps) => {
   return (
     <TabsContent value="medical-history">
         <Card>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <CardHeader>
                     <CardTitle className='text-3xl'>Tell Us About Your Medical History</CardTitle>
                 </CardHeader>
@@ -115,7 +115,7 @@ const MedicalHistory = ({onChangeFn,currentTab}:MedicalHistoryProps) => {
                 </CardContent>
                 <CardFooter className='flex justify-between  gap-4 md:justify-end '>
                     <Button variant='outline' onClick={()=>onChangeFn('health-information')}>Previous</Button>
-                    <Button type='submit' onClick={handleSubmit}>Next</Button>
+                    <Button type='submit'>Next</Button>
                 </CardFooter>
             </form>
         </Card>

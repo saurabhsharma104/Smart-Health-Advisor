@@ -7,10 +7,15 @@ import { useFormik } from 'formik'
 import React, { useEffect, useState } from 'react'
 import Select from 'react-select';
 import axios from 'axios'
-
+import useFinalData from '@/hooks/useFinalData'
 
 interface SymptomsVal{
     symptomsName:Object,
+}
+
+interface Symptom {
+    value: string;
+    label: string;
 }
 
 interface SymptomsProps{
@@ -19,6 +24,7 @@ interface SymptomsProps{
 }
 const Symptoms = ({onChangeFn,onPredict}:SymptomsProps) => {
   const [symptomsDatas,setSymptomsDatas] = useState([])
+  const {setPredictedDisease,setIsloading} =useFinalData()
 
   const initialValue:SymptomsVal={
     symptomsName:[],
@@ -27,25 +33,31 @@ const Symptoms = ({onChangeFn,onPredict}:SymptomsProps) => {
   const {values,errors,handleBlur,handleChange,handleSubmit,touched} = useFormik({
       initialValues:initialValue,
       onSubmit:(values,action)=>{
+        setIsloading(true)
         onPredict(true)
-        console.log("values",values)
-        const requestData:Record<string, number> = {};
 
-        values.symptomsName?.forEach(item => {
-            requestData[item.value] = 1;
-        });
+        const transformedObject: { [key: string]: string } = {};
 
-        axios.post('http://127.0.0.1:8000/predict/', requestData)
+        // values.symptomsName.forEach((symptom: Symptom) => {
+        //     transformedObject[symptom.value] = symptom.label;
+        // });
+        if (Array.isArray(values.symptomsName)) {
+            values.symptomsName.forEach((symptom: Symptom) => {
+                transformedObject[symptom.value] = symptom.label;
+            });
+        }
+
+        axios.post('http://127.0.0.1:8000/predict/', transformedObject)
         .then(response => {
-            console.log('API Response:', response.data);
+            setIsloading(false)
+            setPredictedDisease(response.data);
         })
         .catch(error => {
+            setIsloading(false)
+            setPredictedDisease([]);
             console.error('API Error:', error);
         });
 
-
-
-        // console.log('onSubmit',requestData)
       }
   });
 
