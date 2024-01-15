@@ -1,11 +1,11 @@
 ## Smart-Health-Advisor
 
-##Live Demo (Backend not supported) 
-# This live demo link is only supported for frontend changes 
+## Live Demo (Backend not supported) 
+This live demo link is only supported for frontend changes 
 
 [https://smart-health-advisor.vercel.app/](https://smart-health-advisor.vercel.app/)
 
-# For expected results follow the below steps:
+For expected results follow the below steps:
 
 ## Getting Started
 
