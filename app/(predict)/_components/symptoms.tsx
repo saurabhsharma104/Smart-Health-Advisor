@@ -9,6 +9,7 @@ import Select from 'react-select';
 import axios from 'axios'
 import useFinalData from '@/hooks/useFinalData'
 import { API_URL, base_url } from '@/lib/urls'
+import useClientData from '@/hooks/useClientData'
 
 interface SymptomsVal{
     symptomsName:Object,
@@ -26,7 +27,7 @@ interface SymptomsProps{
 const Symptoms = ({onChangeFn,onPredict}:SymptomsProps) => {
   const [symptomsDatas,setSymptomsDatas] = useState([])
   const {setPredictedDisease,setIsloading} =useFinalData()
-
+  const {alcoholData, diseaseData} = useClientData()
   const initialValue:SymptomsVal={
     symptomsName:[],
   }
@@ -37,12 +38,27 @@ const Symptoms = ({onChangeFn,onPredict}:SymptomsProps) => {
         setIsloading(true)
         onPredict(true)
 
-        const transformedObject: { [key: string]: string } = {};
+        let transformedObject: { [key: string]: string } = {};
 
         if (Array.isArray(values.symptomsName)) {
             values.symptomsName.forEach((symptom: Symptom) => {
                 transformedObject[symptom.value] = symptom.label;
             });
+        }
+
+        if(alcoholData.value=='occasional'){
+            const data= {'acquiring drinking alcohol taking lot time':"acquiring drinking alcohol taking lot time"}
+            transformedObject = { ...transformedObject, ...data };
+        }
+
+        if(alcoholData.value=='regular'){
+            const data ={"drinking large amount alcohol long period":"drinking large amount alcohol long period"}
+            transformedObject = { ...transformedObject, ...data };
+        }
+
+        if(diseaseData.value!=""){
+            const data = {current_disease:diseaseData.label}
+            transformedObject = { ...transformedObject, ...data };
         }
 
         axios.post(`${base_url}${API_URL.predict}`, transformedObject)

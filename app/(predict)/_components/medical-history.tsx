@@ -12,10 +12,10 @@ import Select from 'react-select';
 import { Textarea } from "@/components/ui/textarea"
 import { Checkbox } from '@/components/ui/checkbox'
 import { Note } from '@/components/Note'
+import useClientData from '@/hooks/useClientData'
 
 interface MedicalHistoryVal{
     curntDisease:Object,
-    curntMedication:string,
 }
 
 
@@ -24,8 +24,10 @@ interface MedicalHistoryProps{
     currentTab:string,
 }
 const MedicalHistory = ({onChangeFn,currentTab}:MedicalHistoryProps) => {
-    const [diseaseData,setDiseaseData] = useState([])
+    const [diseaseData,setDiseaseDatas] = useState([])
     const [checkCurrentlyPreviously,setCheckCurrentlyPreviously] = useState<boolean>(false);
+
+    const {setDiseaseData} = useClientData()
 
     useEffect(()=>{
         if(currentTab!='medical-history'){
@@ -35,14 +37,14 @@ const MedicalHistory = ({onChangeFn,currentTab}:MedicalHistoryProps) => {
 
     const initialValue:MedicalHistoryVal={
         curntDisease:{},
-        curntMedication:'',
     }
 
     const {values,errors,handleBlur,handleChange,handleSubmit,touched} = useFormik({
         initialValues:initialValue,
         onSubmit:(values,action)=>{
             onChangeFn('your-symptoms')
-            console.log('onSubmit',values)
+            const data:any=values?.curntDisease
+            setDiseaseData(data)
         }
     });
 
@@ -54,7 +56,7 @@ const MedicalHistory = ({onChangeFn,currentTab}:MedicalHistoryProps) => {
           },
         });
         const result = await response.json();
-        setDiseaseData(result)
+        setDiseaseDatas(result)
         return result;
     }
 
@@ -73,7 +75,7 @@ const MedicalHistory = ({onChangeFn,currentTab}:MedicalHistoryProps) => {
             <form onSubmit={handleSubmit}>
                 <CardHeader>
                     <CardTitle className='text-3xl'>Tell Us About Your Medical History</CardTitle>
-                    <Note/>
+                    {/* <Note/> */}
                 </CardHeader>
                 <CardContent className="space-y-2">
 
@@ -109,7 +111,7 @@ const MedicalHistory = ({onChangeFn,currentTab}:MedicalHistoryProps) => {
 
                     <div className="space-y-1 text-start mt-4">
                         <Label htmlFor="name">List of Current Medications</Label>
-                        <Textarea name='curntMedication' value={values.curntMedication} onChange={handleChange} placeholder="Type List of Current Medications." />
+                        <Textarea placeholder="Type List of Current Medications." />
                     </div>
 
                     </>}

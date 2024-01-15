@@ -38,7 +38,7 @@ const PersonalInfo = ({onChangeFn,activate}:PersonalInfoProps) => {
             onChangeFn('health-information')
             activate(false)
             
-            console.log('onSubmit',values)
+            // console.log('onSubmit',values)
         }
     });
 

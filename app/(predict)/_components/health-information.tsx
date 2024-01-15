@@ -2,8 +2,8 @@ import { Note } from '@/components/Note'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { Popover, PopoverTrigger } from '@/components/ui/popover'
 import { TabsContent } from '@/components/ui/tabs'
+import useClientData from '@/hooks/useClientData'
 import { cn } from '@/lib/utils'
 import { Label } from '@radix-ui/react-label'
 import { useFormik } from 'formik'
@@ -11,21 +11,17 @@ import React from 'react'
 import Select from 'react-select';
 
 interface HealthInfoVal{
-    height:string,
-    weight:string,
-    smoking:Object,
     alcohol:Object
 }
+
 
 interface HealthInformationProps{
     onChangeFn:(val:string)=> void
 }
 const HealthInformation = ({onChangeFn}:HealthInformationProps) => {
+    const { setAlcoholData, setDiseaseData } = useClientData();
 
     const initialValue:HealthInfoVal={
-        height:'',
-        weight:'',
-        smoking:{},
         alcohol:{}
     }
 
@@ -33,7 +29,8 @@ const HealthInformation = ({onChangeFn}:HealthInformationProps) => {
         initialValues:initialValue,
         onSubmit:(values,action)=>{
             onChangeFn('medical-history')
-            console.log('onSubmit',values)
+            const data:any=values?.alcohol
+            setAlcoholData(data)
         }
     });
 
@@ -48,34 +45,25 @@ const HealthInformation = ({onChangeFn}:HealthInformationProps) => {
             <form onSubmit={handleSubmit}>
                 <CardHeader>
                     <CardTitle className='text-3xl'>Health Information</CardTitle>
-                    <Note/>
+                    {/* <Note/> */}
                 </CardHeader>
                 <CardContent className="space-y-2">
-                    <div className="space-y-1 text-start">
+                    {/* <div className="space-y-1 text-start">
                         <Label htmlFor="name">Height (in cm)</Label>
                         <Input id="name" name='height' onChange={handleChange} onBlur={handleBlur} value={values.height} />
-                    </div>
+                    </div> */}
 
                     <div className="space-y-1 text-start">
                         <Label htmlFor="name">Weight (in kg)</Label>
-                        <Input id="name" name='weight' onChange={handleChange} onBlur={handleBlur} value={values.weight} />
+                        <Input id="name" />
                     </div>
 
                     <div className="space-y-1 text-start">
                         <Label htmlFor="name">Smoking Habits</Label>
                         <Select 
                         className=""
-                        name="smoking"
                         id="smoking"
                         placeholder='Smoking Habits'
-                        value={values.smoking}
-                        onChange={selectedOption => {
-                            let event = {target: {name: 'smoking', value: selectedOption}}
-                            handleChange(event)
-                        }}
-                        onBlur={() => {
-                            handleBlur({target: {name: 'smoking'}});
-                        }}
                         options={smokingOption}
                         />
                     </div>
