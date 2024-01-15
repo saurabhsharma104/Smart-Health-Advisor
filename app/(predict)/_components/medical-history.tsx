@@ -11,6 +11,7 @@ import React, { useEffect, useState ,ChangeEvent} from 'react'
 import Select from 'react-select';
 import { Textarea } from "@/components/ui/textarea"
 import { Checkbox } from '@/components/ui/checkbox'
+import { Note } from '@/components/Note'
 
 interface MedicalHistoryVal{
     curntDisease:Object,
@@ -72,6 +73,7 @@ const MedicalHistory = ({onChangeFn,currentTab}:MedicalHistoryProps) => {
             <form onSubmit={handleSubmit}>
                 <CardHeader>
                     <CardTitle className='text-3xl'>Tell Us About Your Medical History</CardTitle>
+                    <Note/>
                 </CardHeader>
                 <CardContent className="space-y-2">
 

@@ -8,6 +8,7 @@ import React, { useEffect, useState } from 'react'
 import Select from 'react-select';
 import axios from 'axios'
 import useFinalData from '@/hooks/useFinalData'
+import { API_URL, base_url } from '@/lib/urls'
 
 interface SymptomsVal{
     symptomsName:Object,
@@ -38,16 +39,13 @@ const Symptoms = ({onChangeFn,onPredict}:SymptomsProps) => {
 
         const transformedObject: { [key: string]: string } = {};
 
-        // values.symptomsName.forEach((symptom: Symptom) => {
-        //     transformedObject[symptom.value] = symptom.label;
-        // });
         if (Array.isArray(values.symptomsName)) {
             values.symptomsName.forEach((symptom: Symptom) => {
                 transformedObject[symptom.value] = symptom.label;
             });
         }
 
-        axios.post('http://127.0.0.1:8000/predict/', transformedObject)
+        axios.post(`${base_url}${API_URL.predict}`, transformedObject)
         .then(response => {
             setIsloading(false)
             setPredictedDisease(response.data);
