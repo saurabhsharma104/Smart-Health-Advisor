@@ -1,3 +1,4 @@
+import { Note } from '@/components/Note'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -47,6 +48,7 @@ const HealthInformation = ({onChangeFn}:HealthInformationProps) => {
             <form onSubmit={handleSubmit}>
                 <CardHeader>
                     <CardTitle className='text-3xl'>Health Information</CardTitle>
+                    <Note/>
                 </CardHeader>
                 <CardContent className="space-y-2">
                     <div className="space-y-1 text-start">
