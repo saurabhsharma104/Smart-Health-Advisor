@@ -1,8 +1,8 @@
-# Disease-Prediction-using-Symptoms
+## Smart-Health-Advisor
 
 ## Getting Started
 
-First, run the backend server:
+##First, run the backend server:
 
 ## Step 1
 ```
@@ -27,10 +27,10 @@ python manage.py runserver
 
 
 
-## Make request from frontend on this port 
+## Make a request from frontend on this port 
 
 
-Second, run the frontend server on your local machine 
+## Second, run the frontend server on your local machine 
 
 
 ```bash
