@@ -4,7 +4,7 @@ const Logo = () => {
     return ( 
         <div className="hidden md:flex items-center pag-x-2">
             <Avatar>
-                <AvatarFallback className="bg-black text-white text-xs text-muted">DPS</AvatarFallback>
+                <AvatarFallback className="bg-black text-white text-xs text-muted">HA</AvatarFallback>
             </Avatar>
         </div>
      );
